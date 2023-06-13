@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
+const User = require("../models/schema");
 
 // User sign-up
 router.post("/signup", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { first_name, last_name, email, password } = req.body;
+  console.log(req.body, "LAST NAME");
 
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    console.log(existingUser);
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -20,15 +20,13 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create a new user
-    const newUser = new User({
-      firstName,
-      lastName,
+    const newUser = await User.create({
+      first_name,
+      last_name,
       email,
       password: hashedPassword,
     });
 
-    // Save the user to the database
-    await newUser.save();
     // Respond with a success message
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -42,7 +40,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Check if the user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

@@ -1,15 +1,20 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../db");
+const { Model, DataTypes } = require("sequelize");
+const { sequelize } = require("../db");
 
 class User extends Model {}
 
 User.init(
   {
-    firstName: {
+    // id: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   primaryKey: true,
+    // },
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastName: {
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -26,8 +31,7 @@ User.init(
   {
     sequelize,
     modelName: "User",
-    tableName: "users",
-    // Other model options if needed
+    tableName: "employees",
   }
 );
 
