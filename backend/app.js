@@ -36,19 +36,11 @@ app.use((req, res, next) => {
 
 // Routes
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/userRoutes");
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 // need app.use for the routes
 
-app.get("/api/users", (req, res) => {
-  User.findAll()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((error) => {
-      console.error("Error retrieving users:", error);
-      res.status(500).json({ error: "Failed to retrieve users" });
-    });
-});
 
 // Start the server
 const PORT = 3000;

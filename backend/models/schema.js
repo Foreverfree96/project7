@@ -5,11 +5,6 @@ class User extends Model {}
 
 User.init(
   {
-    // id: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   primaryKey: true,
-    // },
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,6 +22,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    imageUrl: { type: DataTypes.STRING, required: true },
   },
   {
     sequelize,
