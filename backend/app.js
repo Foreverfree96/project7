@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const User = require("./models/schema");
+const User = require("./models/user");
 
 // MiddleWare
 app.use(express.json());
@@ -10,7 +10,8 @@ require("dotenv").config();
 
 // Connect to the database
 const { sequelize } = require("./db");
-sequelize.authenticate()
+sequelize
+  .authenticate()
   .then(() => {
     console.log("Connected to the database");
   })
@@ -40,7 +41,6 @@ const userRoutes = require("./routes/userRoutes");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 // need app.use for the routes
-
 
 // Start the server
 const PORT = 3000;

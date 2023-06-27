@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/schema");
+const User = require("../models/user");
 const fs = require("fs");
 
 exports.getUsers = async (req, res) => {
@@ -15,8 +15,8 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-//TO FIX **** FINDONE AND DESTROY BOTH SEND A RESPONSE FROM ONE REQUEST, FIX
-
+  //TODO: FIX **** FINDONE AND DESTROY BOTH SEND A RESPONSE FROM ONE REQUEST, FIX
+  // create a seperate controller to delete the images from database
 
   // User.findOne({ _id: req.params.id }).then((data) => {
   //   const filename = data.imageUrl ? data.imageUrl.split("/images/")[1] : "";
@@ -42,15 +42,8 @@ exports.deleteUser = async (req, res) => {
     });
 };
 
-exports.modifyUser = async (req, res) => {
-
-
-}
-
-
-
-
-
+//TODO: start working on modify user <---
+// example
 
 // User.update(
 //   {
@@ -69,3 +62,5 @@ exports.modifyUser = async (req, res) => {
 //     });
 //   });
 
+// might not be needed.
+exports.modifyUser = async (req, res) => {};

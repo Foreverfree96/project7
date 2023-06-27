@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/schema");
+const User = require("../models/user");
 
 exports.registerUser = async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
@@ -53,5 +53,3 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
