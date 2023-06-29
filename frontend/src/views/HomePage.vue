@@ -7,18 +7,17 @@
         <li v-for="item in items" :key="item.id">{{ item.title }}</li>
       </ul>
     </div>
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Footer from "../components/footer.vue";
+
 
 export default {
-  components: {
-    Footer,
-  },
+  // components: {
+    
+  // },
   data() {
     return {
       items: [],
