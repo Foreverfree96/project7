@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const User = require("./models/user");
 
+const cors = require("cors");
+
 // MiddleWare
 app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 
 //LOOK HERE FOR DOTENV STUFF
 require("dotenv").config();

@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 exports.registerUser = async (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { username, email, password } = req.body;
+  console.log(req.body, username, email, password);
 
   try {
     // Check if the user already exists
@@ -19,11 +20,12 @@ exports.registerUser = async (req, res) => {
 
     // Create a new user
     const newUser = await User.create({
-      first_name,
-      last_name,
+      username,
       email,
       password: hashedPassword,
     });
+
+    console.log(newUser);
 
     // Respond with a success message
     res.status(201).json({ message: "User registered successfully" });
@@ -34,22 +36,81 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
+  User.findOne({ username: username }).then((user) => {
+    if (!user) {
+      return res.status(401).json({
+        error: new Error("User not found!"),
+      });
+    }
+  });
+
   try {
     // Check if the user exists
-    const user = await User.findOne({ where: { email } });
+    const user = User.findOne({ where: { username, password } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-    // Respond with a success message or token generation for authentication
-    res.status(200).json({ message: "Login successful" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    bcrypt
+      .compare(req.body.password, user.password)
+      .then((valid) => {
+        if (!valid) {
+          return res.status(401).json({
+            error: new Error("Incorrect password!"),
+          });
+        }
+        const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+          expiresIn: "24h",
+        });
+        res.status(200).json({
+          userId: user._id,
+          token: token,
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error: error,
+        });
+      });
+  } catch {
+    console.log("something");
   }
 };
+//
+// exports.login = (req, res, next) => {
+//   console.log(req.body);
+//   User.findOne({ email: req.body.email })
+//     .then((user) => {
+//       if (!user) {
+//         return res.status(401).json({
+//           error: new Error("User not found!"),
+//         });
+//       }
+//       bcrypt
+//         .compare(req.body.password, user.password)
+//         .then((valid) => {
+//           if (!valid) {
+//             return res.status(401).json({
+//               error: new Error("Incorrect password!"),
+//             });
+//           }
+//           const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+//             expiresIn: "24h",
+//           });
+//           res.status(200).json({
+//             userId: user._id,
+//             token: token,
+//           });
+//         })
+//         .catch((error) => {
+//           res.status(500).json({
+//             error: error,
+//           });
+//         });
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         error: error,
+//       });
+//     });
+// };
