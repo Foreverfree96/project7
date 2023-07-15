@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Your component content -->
+    <router-link to="./views/LoginPage.vue"></router-link>;
     <div v-if="dataLoading">Loading...</div>
     <div v-else>
       <ul>
@@ -13,10 +13,9 @@
 <script>
 import axios from "axios";
 
-
 export default {
   // components: {
-    
+
   // },
   data() {
     return {

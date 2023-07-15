@@ -1,11 +1,12 @@
+import { createRouter, createWebHistory } from "vue-router";
+// import Vue from "vue";
+
+// Import your components here
 import HomePage from "./views/HomePage.vue";
-import SignupPage from "./views/SignupPage.vue";
 import LoginPage from "./views/LoginPage.vue";
+import SignupPage from "./views/SignupPage.vue";
 
-import Vue from "vue";
-import VueRouter from "vue-router";
-
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 // Define your routes
 const routes = [
@@ -14,21 +15,19 @@ const routes = [
     component: HomePage,
   },
   {
-    path: "/signup",
-    component: SignupPage,
-  },
-  {
     path: "/login",
     component: LoginPage,
+  },
+  {
+    path: "/signup",
+    component: SignupPage,
   },
 ];
 
 // Create a new VueRouter instance with the routes
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(),
   routes,
 });
 
-// Mount the Vue instance with the router
-new Vue({
-  router,
-}).$mount("#app");
+export default router;

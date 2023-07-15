@@ -1,7 +1,7 @@
 <template>
   <div class="signupFlex">
     <form class="form-sizing" @submit.prevent="submitForm">
-      <h2 class="text-spacing">Sign Up</h2>
+      <h2 class="text-spacing">Login</h2>
       <div class="form-row">
         <label for="username">Username:</label>
         <input type="text" id="username" v-model="form.username" required />
@@ -44,6 +44,7 @@ export default {
           // Handle successful signup
           console.log("Signup successful", response.data);
           // Reset form fields
+          this.form.username = "";
           this.form.username = "";
           this.form.email = "";
           this.form.password = "";
