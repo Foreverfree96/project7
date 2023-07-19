@@ -42,16 +42,21 @@ export default {
         .post("http://localhost:3000/api/auth/login", this.form)
         .then((response) => {
           // Handle successful signup
-          console.log("Signup successful", response.data);
+          console.log("Login successful", response.data);
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+          console.log(localStorage.getItem("token"));
           // Reset form fields
-          this.form.username = "";
           this.form.username = "";
           this.form.email = "";
           this.form.password = "";
+
+          if (response.data.token) {
+            this.$router.push("/");
+          }
         })
         .catch((error) => {
           // Handle signup error
-          console.error("Signup error", error);
+          console.error("login error", error);
         });
     },
   },

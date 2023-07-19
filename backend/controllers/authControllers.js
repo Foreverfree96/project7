@@ -37,42 +37,50 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
-  User.findOne({ username: username }).then((user) => {
-    if (!user) {
-      return res.status(401).json({
-        error: new Error("User not found!"),
-      });
-    }
-  });
+  console.log("INSIDE LOGIN");
+  User.findOne({
+    where: {
+      username: username,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({
+          error: new Error("User not found!"),
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   try {
     // Check if the user exists
-    const user = User.findOne({ where: { username, password } });
+    const user = await User.findOne({ where: { username } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    bcrypt
-      .compare(req.body.password, user.password)
-      .then((valid) => {
-        if (!valid) {
-          return res.status(401).json({
-            error: new Error("Incorrect password!"),
-          });
-        }
-        const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
-          expiresIn: "24h",
-        });
-        res.status(200).json({
-          userId: user._id,
-          token: token,
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error: error,
-        });
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({
+        error: new Error("Incorrect password!"),
       });
-  } catch {
-    console.log("something");
+    }
+
+    const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+      expiresIn: "24h",
+    });
+
+    
+
+    res.status(200).json({
+      userId: user._id,
+      token: token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message, // Returning the error message to the client
+    });
   }
 };
