@@ -5,13 +5,15 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "./views/HomePage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import SignupPage from "./views/SignupPage.vue";
+import ProfilePage from "./views/ProfilePage.vue";
+import CreatePost from "./views/CreatePost.vue";
 
 // Vue.use(VueRouter);
 
 // Define your routes
 const routes = [
   {
-    path: "/",
+    path: "/HomePage",
     component: HomePage,
   },
   {
@@ -21,6 +23,14 @@ const routes = [
   {
     path: "/signup",
     component: SignupPage,
+  },
+  {
+    path: "/profile",
+    component: ProfilePage,
+  },
+  {
+    path: "/createpost",
+    component: CreatePost,
   },
 ];
 

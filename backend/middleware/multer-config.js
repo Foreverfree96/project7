@@ -19,5 +19,20 @@ const storage = multer.diskStorage({
     callback(null, name + Date.now() + "." + extension);
   },
 });
+
+// or
+
+// Multer configuration to handle file uploads
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads"); // The destination directory for uploaded files
+//   },
+//   filename: (req, file, cb) => {
+//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     cb(null, uniqueSuffix + path.extname(file.originalname)); // File name with unique timestamp and original extension
+//   },
+// });
+
+// const upload = multer({ storage });
 // exports a single image
 module.exports = multer({ storage: storage }).single("image");

@@ -15,12 +15,4 @@ router.get("/getUsers", userController.getUsers);
 router.delete("/deleteUser/:id", userController.deleteUser);
 router.put("/modifyUser/:id", userController.modifyUser);
 
-// let user = {
-//     images: [
-//         {id: '121203', url: '3498'},
-//         {id: '121203', url: '3498'},
-//         {id: '121203', url: '3498'},
-//     ]
-// }
-
 module.exports = router;

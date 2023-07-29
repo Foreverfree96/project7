@@ -4,14 +4,13 @@ const User = require("../models/user");
 const fs = require("fs");
 
 exports.getUsers = async (req, res) => {
-  User.findAll()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((error) => {
-      console.error("Error retrieving users:", error);
-      res.status(500).json({ error: "Failed to retrieve users" });
-    });
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Failed to retrieve users" });
+  }
 };
 
 exports.deleteUser = async (req, res) => {

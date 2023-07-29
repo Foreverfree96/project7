@@ -41,8 +41,11 @@ app.use((req, res, next) => {
 // Routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
+
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
 // need app.use for the routes
 
 // Start the server
