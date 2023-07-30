@@ -16,13 +16,13 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="form.password" required />
       </div>
-      <div class="btn-flex">
+      <div class="btn-container">
         <button class="action-btn" type="submit">
           {{ isLogin ? "Login" : "Sign Up" }}
         </button>
-        <button class="action-btn" @click="toggleForm">
-          {{ isLogin ? "Switch to Sign Up" : "Switch to Login" }}
-        </button>
+        <router-link id="move-text" class="action-btn" to="/login">
+          Switch to Login
+        </router-link>
       </div>
     </form>
   </div>
@@ -34,7 +34,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      isLogin: true, // Set to true to display the login form initially
+      isLogin: false, // Set to true to display the login form initially
       form: {
         username: "",
         email: "",

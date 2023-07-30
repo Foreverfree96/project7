@@ -1,6 +1,10 @@
 <template>
   <div>
-    <img src="../logos/icon-left-font.png" alt="groupomania-logo" />
+    <img
+      class="group-img"
+      src="../logos/icon-left-font.png"
+      alt="groupomania-logo"
+    />
     <header>
       <nav>
         <div class="btnFlexPosition">

@@ -1,5 +1,8 @@
 <template>
   <div class="create-post-container">
+    <div class="image-preview">
+      <img :src="previewImage" v-if="previewImage" alt="Image Preview" />
+    </div>
     <div class="form-container">
       <h2>Create a New Post</h2>
       <form @submit.prevent="submitPost">
@@ -14,15 +17,12 @@
           <label for="pic-image">Image:</label>
           <input
             type="file"
-            id="image"
+            id="pic-image"
             ref="imageInput"
             @change="onImageChange"
           />
 
           <!-- Display a preview of the selected image -->
-          <div v-if="previewImage" class="image-preview">
-            <img :src="previewImage" alt="Image Preview" />
-          </div>
         </div>
 
         <button type="submit">Submit</button>

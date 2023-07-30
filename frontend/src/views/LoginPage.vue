@@ -16,13 +16,13 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="form.password" required />
       </div>
-      <div class="btn-flex">
+      <div class="btn-container">
         <button class="action-btn" type="submit">
           {{ isLogin ? "Login" : "Sign Up" }}
         </button>
-        <button class="action-btn" @click="toggleForm">
-          {{ isLogin ? "Switch to Sign Up" : "Switch to Login" }}
-        </button>
+        <router-link id="move-text" class="action-btn" to="/signup">
+          Switch to Sign Up
+        </router-link>
       </div>
     </form>
   </div>
