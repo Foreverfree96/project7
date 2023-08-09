@@ -11,9 +11,7 @@
           <router-link class="createPostBtn" to="/CreatePost"
             >Create Post</router-link
           >
-          <router-link class="loginBtnPosition" to="/HomePage"
-            >Home</router-link
-          >
+          <router-link class="loginBtnPosition" to="/">Home</router-link>
           <router-link
             v-if="loggedIn"
             class="profBtn, loginBtnPosition"

@@ -13,7 +13,8 @@ import CreatePost from "./views/CreatePost.vue";
 // Define your routes
 const routes = [
   {
-    path: "/HomePage",
+    path: "/",
+    name: "HomePage",
     component: HomePage,
   },
   {

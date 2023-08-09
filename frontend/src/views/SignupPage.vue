@@ -56,7 +56,7 @@ export default {
             this.form.email = "";
             this.form.password = "";
 
-            this.$router.push("/HomePage"); // Redirect to the desired page after login
+            this.$router.push("/"); // Redirect to the homepage
           })
           .catch((error) => {
             // Handle login error

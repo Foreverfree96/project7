@@ -2,12 +2,17 @@
   <div>
     <div v-if="dataLoading">Loading...</div>
     <div v-else>
-      <h2 class="text-center">Welcome, {{ userProfile.username }}</h2>
       <ul v-if="items.length">
-        <li v-for="item in items" :key="item.id">{{ item.title }}</li>
+        <li v-for="item in items" :key="item.id">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.content }}</p>
+          <CreatePost v-if="item.userId" :userId="item.userId" />
+
+          <!-- You can add more information here as needed -->
+        </li>
       </ul>
 
-      <CreatePost v-if="showCreatePostForm" />
+      <!-- <CreatePost :userId="user.id" /> -->
     </div>
   </div>
 </template>
@@ -22,48 +27,36 @@ export default {
   },
   data() {
     return {
+      postData: {
+        title: "",
+        content: "",
+        image: null,
+        userId: this.user.id, // Use this.user.id instead of this.userId
+      },
       items: [],
       dataLoading: true,
-      userProfile: {},
-      showCreatePostForm: false, // Add a new data property to control the form visibility
+      user: {}, // Initialize user as an empty object
     };
   },
   mounted() {
-    // Fetch user profile data and other data from the backend when the component is mounted
-    this.fetchUserProfile();
     this.fetchData();
+    console.log("User data from local storage:", this.user);
+    this.token = JSON.parse(localStorage.getItem("token"));
+    this.user.id = parseInt(this.user.id, 10);
+    this.user = JSON.parse(localStorage.getItem("user"));
   },
   methods: {
-    toggleCreatePostForm() {
-      this.showCreatePostForm = !this.showCreatePostForm;
-    },
-    fetchUserProfile() {
-      // Get the authentication token from localStorage
-      const token = JSON.parse(localStorage.getItem("token"));
-
-      // Make a GET request to fetch user profile data with the authentication token
-      axios
-        .get("http://localhost:3000/api/getUsers", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          this.userProfile = response.data;
-        })
-        .catch((error) => {
-          console.error("Failed to fetch user profile", error);
-        });
-    },
     fetchData() {
+      console.log("Fetching data...");
       axios
-        .get("http://localhost:3000/api/getUsers")
+        .get("http://localhost:3000/api/posts") // Update the URL to the correct endpoint for fetching posts
         .then((response) => {
           this.items = response.data;
           this.dataLoading = false;
         })
         .catch((error) => {
           console.error(error);
+          console.error("Error fetching data:", error);
           this.dataLoading = false;
         });
     },

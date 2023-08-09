@@ -5,9 +5,21 @@ class Post extends Model {}
 
 Post.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING,
+
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     content: {
       type: DataTypes.TEXT,
@@ -17,20 +29,20 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // Add foreign key to associate a post with a user
+    // Update the foreign key to reference the employees table
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "User", // Refers to the User model
-        key: "id", // Refers to the primary key of the User model
+        model: "employees", // Refers to the employees table
+        key: "id", // Refers to the primary key of the employees table
       },
     },
   },
   {
     sequelize,
     modelName: "Post",
-    tableName: "posts", // Name of the table in the database
+    tableName: "postTable", // Replace "schema_name" with the actual schema name
   }
 );
 

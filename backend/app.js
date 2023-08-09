@@ -1,13 +1,30 @@
 const express = require("express");
 const app = express();
 const User = require("./models/user");
-
 const cors = require("cors");
 
 // MiddleWare
 app.use(express.json());
-app.use(cors({ origin: true, credentials: true }));
+// app.use(cors({ origin: true, credentials: true }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Replace "*" with your allowed origins
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Specify allowed methods
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  ); // Specify allowed headers
+
+  // Allow credentials if needed
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 //LOOK HERE FOR DOTENV STUFF
 require("dotenv").config();
 
@@ -21,22 +38,6 @@ sequelize
   .catch((err) => {
     console.error("Error connecting to the database:", err);
   });
-// app.use(cors());
-
-// this is the app.use for the headers. see project 6
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
 
 // Routes
 const authRoutes = require("./routes/auth");
@@ -46,9 +47,7 @@ const postRoutes = require("./routes/postRoutes");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
-// need app.use for the routes
 
-// Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("../middleware/multer-config");
+const upload = require("../middleware/multer-config");
 const postController = require("../controllers/postController");
+const auth = require("../middleware/auth");
+const Post = require("../models/Post");
 
 // Route for submitting images and text
-router.post("/submitData", multer, postController.submitData);
+// router.post("/", multer, postController.submitData);
+// router.post("/", auth, upload, postController.submitData);
+router.post("/", auth, upload, postController.submitData);
 
-// Route for fetching the data to display on the home page
-// router.get("/getUsers", postController.getData);
+// Add a route to fetch all posts to display on the home page
+router.get("/", postController.getPosts);
 
 module.exports = router;
