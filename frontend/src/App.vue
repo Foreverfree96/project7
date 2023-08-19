@@ -37,31 +37,30 @@ import FooterComp from "./components/FooterComp.vue";
 
 // import SignupPage from "./views/SignupPage.vue";
 // import LoginPage from "./views/LoginPage.vue";
-import { defineComponent, ref } from "vue";
+import { ref } from "vue";
 
-export default defineComponent({
+export default {
   data() {
     return {
       token: null,
-      loggedIn: null,
+      user: {},
     };
   },
   components: {
     FooterComp,
   },
-  mounted() {
+  created() {
     this.token = localStorage.getItem("token");
-    this.loggedIn = ref(this.token);
-    console.log(this.loggedIn);
-    console.log(this.token);
+    this.loggedIn = ref(this.token !== null);
   },
-});
+};
 
 const token = localStorage.getItem("token");
-const loggedIn = ref(token);
+const loggedIn = ref(token !== null);
 console.log(loggedIn);
 console.log(token);
 </script>
+
 <style>
 @import "./assets/styles/main.css";
 </style>

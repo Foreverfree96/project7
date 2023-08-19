@@ -13,33 +13,36 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
-  //TODO: FIX **** FINDONE AND DESTROY BOTH SEND A RESPONSE FROM ONE REQUEST, FIX
-  // create a seperate controller to delete the images from database
+// exports.deleteUser = async (req, res) => {
+//   const userId = req.parmas.id;
+//   try {
+//     const user = await User.findByPk(userId);
 
-  // User.findOne({ _id: req.params.id }).then((data) => {
-  //   const filename = data.imageUrl ? data.imageUrl.split("/images/")[1] : "";
-  //   fs.unlink("images/" + filename, (err) => {
-  //     if (err) {
-  //       res.status(400).json({
-  //         error: err,
-  //       });
-  //       return;
-  //     }
-  //   });
-  // })
-  User.destroy({ where: { id: req.params.id } })
-    .then(() => {
-      res.status(200).json({
-        message: "Deleted!",
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // Delete user's images
+//     if (user.imageUrl) {
+//       const filename = user.imageUrl.split("/images/")[1];
+//       fs.unlink("images/" + filename, (err) => {
+//         if (err) {
+//           console.error("Error deleting user image:", err);
+//         }
+//       });
+//     }
+
+//     // Delete the user
+//     await user.destroy();
+
+//     return res
+//       .status(200)
+//       .json({ message: "User and associated images deleted successfully" });
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//     res.status(500).json({ error: "Failed to delete user" });
+//   }
+// };
 
 //TODO: start working on modify user <---
 // example

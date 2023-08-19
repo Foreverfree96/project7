@@ -47,6 +47,7 @@ const postRoutes = require("./routes/postRoutes");
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/images", express.static("images"));
 
 const PORT = 3000;
 app.listen(PORT, () => {

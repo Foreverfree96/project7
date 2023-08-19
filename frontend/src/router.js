@@ -14,7 +14,7 @@ import CreatePost from "./views/CreatePost.vue";
 const routes = [
   {
     path: "/",
-    name: "HomePage",
+    name: "home",
     component: HomePage,
   },
   {

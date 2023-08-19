@@ -1,6 +1,6 @@
 const multer = require("multer");
 const path = require("path");
-const Post = require("../models/Post");
+const Post = require("../models/post");
 const fs = require("fs");
 const express = require("express");
 const app = express();
@@ -29,16 +29,19 @@ const postController = {
 
     try {
       const url = req.protocol + "://" + req.get("host");
+      let imageUrl = "";
       if (req.file) {
         console.log("HAVE A FILE");
+        imageUrl = url + "/images/" + req.file.filename;
       }
       // Create a new Post model instance with the image and text data
       const newPost = new Post({
         title: req.body.title,
         content: req.body.content,
-        imageUrl: url + "/images/" + req.file.filename, // Use req.file.path to get the path of the uploaded image
-        userId: req.body.userId, // Assuming you have the userId available in the request body
+        imageUrl: imageUrl,
+        userId: req.body.userId,
       });
+
       console.log(newPost, "NEW POST");
 
       // Save the new post in the database
@@ -55,6 +58,36 @@ const postController = {
       }
 
       // Display the error message to the user (you can use a notification library or a simple alert)
+    }
+  },
+
+  deletePost: async (req, res) => {
+    console.log("DELETING");
+    try {
+      const post = await Post.findByPk(req.params.id);
+      console.log(post);
+
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      // Delete post's image
+      if (post.imageUrl) {
+        const filename = post.imageUrl.split("/images/")[1];
+        fs.unlink("images/" + filename, (err) => {
+          if (err) {
+            console.error("Error deleting post image:", err);
+          }
+        });
+      }
+
+      // Delete the post
+      await post.destroy();
+
+      return res.status(200).json({ message: "Post deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ error: "Failed to delete post" });
     }
   },
 

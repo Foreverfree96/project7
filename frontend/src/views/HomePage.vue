@@ -1,67 +1,87 @@
 <template>
   <div>
-    <div v-if="dataLoading">Loading...</div>
-    <div v-else>
-      <ul v-if="items.length">
-        <li v-for="item in items" :key="item.id">
+    <ul class="post-list">
+      <li v-for="item in items" :key="item.id" class="post-card">
+        <div class="post-header">
           <h3>{{ item.title }}</h3>
+          <button @click="deletePost(item)">Delete</button>
+        </div>
+        <div class="post-content">
+          <div v-if="item.imageUrl" class="post-image">
+            <img :src="item.imageUrl" alt="Post Image" />
+          </div>
           <p>{{ item.content }}</p>
-          <CreatePost v-if="item.userId" :userId="item.userId" />
-
-          <!-- You can add more information here as needed -->
-        </li>
-      </ul>
-
-      <!-- <CreatePost :userId="user.id" /> -->
-    </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import CreatePost from "./CreatePost.vue";
+import { defineComponent } from "vue";
 
-export default {
-  components: {
-    CreatePost,
-  },
+export default defineComponent({
   data() {
     return {
-      postData: {
-        title: "",
-        content: "",
-        image: null,
-        userId: this.user.id, // Use this.user.id instead of this.userId
-      },
       items: [],
       dataLoading: true,
-      user: {}, // Initialize user as an empty object
+      imageUrl: "http://localhost:3000/images/", // Change this to your actual image hosting URL
     };
   },
   mounted() {
     this.fetchData();
-    console.log("User data from local storage:", this.user);
-    this.token = JSON.parse(localStorage.getItem("token"));
-    this.user.id = parseInt(this.user.id, 10);
-    this.user = JSON.parse(localStorage.getItem("user"));
   },
   methods: {
-    fetchData() {
+    async fetchData() {
       console.log("Fetching data...");
-      axios
-        .get("http://localhost:3000/api/posts") // Update the URL to the correct endpoint for fetching posts
-        .then((response) => {
-          this.items = response.data;
-          this.dataLoading = false;
-        })
-        .catch((error) => {
-          console.error(error);
-          console.error("Error fetching data:", error);
-          this.dataLoading = false;
+      const response = await axios.get("http://localhost:3000/api/posts");
+      if (response.status === 200) {
+        const posts = response.data;
+        this.items = posts.map((post) => {
+          return {
+            ...post,
+            imageUrl: `${post.imageUrl}`,
+          };
         });
+        console.log(this.items);
+        this.dataLoading = false;
+      } else {
+        console.error("Error fetching data:", response.statusText);
+        this.dataLoading = false;
+      }
+    },
+    async deletePost(item) {
+      const url = `http://localhost:3000/api/posts/${item.id}`;
+      // console.log(localStorage.getItem("token"));
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
+      console.log(url);
+      console.log(headers);
+      try {
+        const response = await axios.delete(url, {
+          headers,
+        });
+        console.log("Delete response:", response);
+        if (response.status === 200) {
+          alert("Post deleted successfully");
+          this.fetchData();
+        } else {
+          // Handle other response statuses if required
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Error deleting post:", error);
+        } else {
+          console.error("Error deleting post:", error);
+        }
+      }
     },
   },
-};
+});
 </script>
 
-<style></style>
+<style>
+@import "../assets/styles/main.css";
+</style>

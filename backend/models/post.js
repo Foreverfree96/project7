@@ -13,10 +13,15 @@ Post.init(
     },
     title: {
       type: DataTypes.STRING,
-
       allowNull: false,
     },
     createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: "createdAt",
+    },
+    updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
@@ -28,6 +33,11 @@ Post.init(
     imageUrl: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    // Storing JSON data directly in the "posts" column
+    posts: {
+      type: DataTypes.JSON, // Use DataTypes.JSONB for PostgreSQL
+      allowNull: true, // Set to false if you want it to be mandatory
     },
     // Update the foreign key to reference the employees table
     userId: {
@@ -42,7 +52,7 @@ Post.init(
   {
     sequelize,
     modelName: "Post",
-    tableName: "postTable", // Replace "schema_name" with the actual schema name
+    tableName: "postTable",
   }
 );
 

@@ -52,7 +52,16 @@ export default {
             // Handle successful login
             console.log("Login successful", response.data);
             localStorage.setItem("token", JSON.stringify(response.data.token));
-            localStorage.setItem("username", response.data.username);
+            localStorage.setItem(
+              "username",
+              JSON.stringify(response.data.username)
+            );
+            localStorage.setItem(
+              "userId",
+              JSON.stringify(response.data.userId)
+            );
+            console.log("this is the user id", response.data.userId);
+
             console.log(localStorage.getItem("token"));
             // Reset form fields
             this.form.username = "";
@@ -60,7 +69,7 @@ export default {
             this.form.password = "";
 
             if (response.data.token) {
-              this.$router.push("/HomePage");
+              this.$router.push("/");
             }
           })
           .catch((error) => {
