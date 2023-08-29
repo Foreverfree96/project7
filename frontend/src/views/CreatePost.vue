@@ -7,7 +7,7 @@
       <h2>Create a New Post</h2>
       <form @submit.prevent="submitPost">
         <input v-model="postData.title" placeholder="Title" />
-        <textarea v-model="postData.content" placeholder="Content" />
+        <textarea v-model="postData.content" placeholder="Content"></textarea>
         <input
           type="file"
           id="pic-image"
@@ -28,7 +28,7 @@ export default defineComponent({
   data: () => ({
     postData: {
       title: "",
-      content: "",
+      content: "", // Make sure 'content' is initialized here
       image: null,
     },
     previewImage: null,
@@ -72,15 +72,13 @@ export default defineComponent({
           }
         );
 
-        if (response.status === 201) {
-          alert("Post submitted successfully");
-          this.$router.push("/");
-        } else {
-          // Handle other response statuses if required
-        }
+        // Handle the response here
+        console.log("Post created successfully:", response.data);
+        // Optionally, you can perform some actions after a successful post creation
       } catch (error) {
-        console.error("Error submitting post:", error.message);
-        alert("Failed to submit the post. Please try again.");
+        console.error("Error submitting post:", error);
+        // Handle the error here
+        // For example, show an error message to the user
       }
     },
   },

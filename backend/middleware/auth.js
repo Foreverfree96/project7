@@ -2,8 +2,12 @@ const jwt = require("jsonwebtoken");
 // this allows users to signup and create an account safely
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+    const token = jwt.sign({ userId: req.body.userId }, "RANDOM_TOKEN_SECRET", {
+      expiresIn: "24h",
+    });
+    const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET", {
+      expiresIn: "24h",
+    });
     const userId = decodedToken.userId;
     req.auth = { userId };
     if (req.body.userId && req.body.userId !== userId) {

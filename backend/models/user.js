@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../db");
+const Post = require("./post"); // Import the Post model
 
 class User extends Model {}
 
@@ -18,13 +19,20 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    imageUrl: { type: DataTypes.STRING, required: true },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true, // Allow null if the user doesn't have an image
+    },
   },
   {
     sequelize,
     modelName: "User",
-    tableName: "employees",
+    tableName: "users", // Use "users" as the table name
   }
 );
+
+// Define the association here
+// User.hasMany(Post, { foreignKey: "userId" });
+// Post.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = User;

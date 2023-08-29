@@ -7,11 +7,17 @@ import LoginPage from "./views/LoginPage.vue";
 import SignupPage from "./views/SignupPage.vue";
 import ProfilePage from "./views/ProfilePage.vue";
 import CreatePost from "./views/CreatePost.vue";
-
+import CardDetailPage from "./views/CardDetailPage.vue";
 // Vue.use(VueRouter);
 
 // Define your routes
 const routes = [
+  {
+    name: "post",
+    path: "/post/:id",
+    component: CardDetailPage,
+    props: true,
+  },
   {
     path: "/",
     name: "home",

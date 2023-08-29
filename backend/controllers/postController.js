@@ -2,10 +2,6 @@ const multer = require("multer");
 const path = require("path");
 const Post = require("../models/post");
 const fs = require("fs");
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const { post } = require("../routes/auth");
 
 // Multer configuration to handle file uploads
 const storage = multer.diskStorage({
@@ -23,9 +19,7 @@ const upload = multer({ storage });
 // Controller for handling image and text submissions
 const postController = {
   submitData: async (req, res, next) => {
-    console.log(postController.submitData, "submit data error");
     console.log("Submitting post...");
-    console.log("Post data:", this.postData);
 
     try {
       const url = req.protocol + "://" + req.get("host");
@@ -47,17 +41,13 @@ const postController = {
       // Save the new post in the database
       await newPost.save();
 
-      // Call the test() function to perform the update operation
-      // await test();
+      // Respond with success
+      res.status(201).json({ message: "Post submitted successfully" });
     } catch (error) {
       console.error("Error submitting post:", error);
-
-      let errorMessage = "An error occurred while submitting the post.";
-      if (error.response && error.response.data && error.response.data.error) {
-        errorMessage = error.response.data.error;
-      }
-
-      // Display the error message to the user (you can use a notification library or a simple alert)
+      res
+        .status(500)
+        .json({ error: "An error occurred while submitting the post" });
     }
   },
 
@@ -68,6 +58,7 @@ const postController = {
       console.log(post);
 
       if (!post) {
+        console.log("Post not found");
         return res.status(404).json({ error: "Post not found" });
       }
 
@@ -77,12 +68,15 @@ const postController = {
         fs.unlink("images/" + filename, (err) => {
           if (err) {
             console.error("Error deleting post image:", err);
+          } else {
+            console.log("Image deleted successfully");
           }
         });
       }
 
       // Delete the post
       await post.destroy();
+      console.log("Post deleted successfully");
 
       return res.status(200).json({ message: "Post deleted successfully" });
     } catch (error) {
@@ -92,6 +86,8 @@ const postController = {
   },
 
   getPosts: async (req, res, next) => {
+    console.log("get post");
+
     try {
       const posts = await Post.findAll();
       res.status(200).json(posts);
@@ -102,4 +98,24 @@ const postController = {
   },
 };
 
-module.exports = postController;
+const getPostById = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    // Fetch the post from your database using the postId
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  getPostById,
+  ...postController,
+};

@@ -221,9 +221,61 @@ button {
   font-weight: 600;
   font-size: 17px;
 }
-
+.new-post-card {
+  border: 1px solid green;
+}
+.post-card {
+  position: relative;
+}
+.new-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.new-badge {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-top: 5px;
+}
 button:hover {
   background-color: #d32f2f;
+}
+.card-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Adjust as needed */
+  padding: 20px;
+  text-align: center;
+}
+.new-badge {
+  background-color: yellow;
+  color: black;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.read {
+  border: 2px solid green;
+}
+.post-card.read {
+  border-color: green;
+}
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 35vh; /* Adjust as needed */
+}
+
+.profile-content {
+  text-align: center;
 }
 /* MEDIA QUERIES */
 

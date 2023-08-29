@@ -9,11 +9,14 @@ const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 const userController = require("../controllers/userControllers");
 
-
 // continue to connect your routes here
 
 router.get("/getUsers", userController.getUsers);
 
 router.put("/modifyUser/:id", userController.modifyUser);
+
+router.delete("/deleteUser/:id", userController.deleteUser);
+
+router.get("/:id", auth, userController.getUserById);
 
 module.exports = router;
