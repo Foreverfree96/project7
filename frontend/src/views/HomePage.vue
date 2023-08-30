@@ -4,9 +4,11 @@
       <li v-for="item in items" :key="item.id" class="post-card">
         <div class="post-header">
           <h3>{{ item.title }}</h3>
-          <span class="badge" :class="badgeClass(item)">
-            {{ badgeText(item) }}
-          </span>
+          <div v-if="!dataLoading">
+            <span class="badge" :class="badgeClass(item)">
+              {{ badgeText(item) }}
+            </span>
+          </div>
         </div>
         <div class="post-content">
           <div v-if="item.imageUrl" class="post-image">
@@ -68,10 +70,10 @@ export default defineComponent({
             const usersRead = storedReadState
               ? JSON.parse(storedReadState)
               : [];
-
+            console.log(post.userId, this.currentUser, "**************");
             if (post.userId === this.currentUser) {
-              this.markItemAsRead(post); // Marks posts created by the current user as read
-            } else if(!post.userId === this.currentUser) {
+              this.markItemAsRead(post);
+            } else if (!post.userId === this.currentUser) {
               // Remove the 'Read' status for non-user posts during data fetch
               const index = this.items.findIndex((item) => item.id === post.id);
               if (index !== -1) {
@@ -88,6 +90,9 @@ export default defineComponent({
             };
           });
           console.log(this.items);
+
+          console.log("RACE CONDITIONS ARE FUN");
+
           this.dataLoading = false;
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -117,14 +122,14 @@ export default defineComponent({
       return post.userId === this.currentUser;
     },
     badgeText(item) {
-      if (this.isPostRead(item)) {
+      if (this.isPostRead(item) || this.isCurrentUserPostCreator(item)) {
         return "Read";
       } else {
         return "New";
       }
     },
     badgeClass(item) {
-      if (this.isPostRead(item)) {
+      if (this.isPostRead(item) || this.isCurrentUserPostCreator(item)) {
         return "read-badge";
       } else {
         return "new-badge";
@@ -165,6 +170,7 @@ export default defineComponent({
           JSON.stringify(item.usersRead)
         );
       }
+      console.log(item.usersRead, item.title);
     },
     isPostRead(item) {
       return item.usersRead.includes(this.currentUser);
