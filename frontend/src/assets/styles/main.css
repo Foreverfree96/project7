@@ -12,6 +12,12 @@ body {
   top: 0;
   right: 0;
 }
+.header {
+  height: 150px;
+  overflow: hidden;
+  position: fixed;
+  z-index: 10;
+}
 .loginBtnPosition {
   margin-right: 25px;
   font-size: 25px;
@@ -41,6 +47,7 @@ body {
   text-decoration: none;
 }
 .signupFlex {
+  padding-top: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,6 +65,8 @@ body {
   display: flex;
 }
 .group-img {
+  outline: 3px solid blue;
+  object-fit: cover;
   height: 500px;
   margin-top: -200px;
   display: flex;
@@ -86,6 +95,7 @@ body {
 }
 
 .create-post-container {
+  padding-top: 250px;
   flex-direction: column;
   display: flex;
   justify-content: center;
@@ -165,6 +175,7 @@ label {
 .post-list {
   list-style: none;
   padding: 0;
+  padding-top: 150px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -276,6 +287,7 @@ button:hover {
   border-color: green;
 }
 .profile-container {
+  padding-top: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;

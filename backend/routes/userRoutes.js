@@ -10,9 +10,6 @@ const userController = require("../controllers/userControllers"); // User contro
 // GET request to "/getUsers": Fetches all users (protected by authentication).
 router.get("/getUsers", userController.getUsers);
 
-// PUT request to "/modifyUser/:id": Modifies a user's data by ID.
-router.put("/modifyUser/:id", userController.modifyUser);
-
 // DELETE request to "/deleteUser/:id": Deletes a user by ID.
 router.delete("/deleteUser/:id", userController.deleteUser);
 

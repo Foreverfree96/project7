@@ -1,12 +1,13 @@
 <template>
   <div>
     <!-- Groupomania logo -->
-    <img
-      class="group-img"
-      src="../logos/icon-left-font.png"
-      alt="groupomania-logo"
-    />
-    <header>
+
+    <header class="header">
+      <img
+        class="group-img"
+        src="../logos/icon-left-font.png"
+        alt="groupomania-logo"
+      />
       <nav>
         <!-- Navigation links -->
         <div class="btnFlexPosition">
