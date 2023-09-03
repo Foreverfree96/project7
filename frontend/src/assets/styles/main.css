@@ -3,6 +3,7 @@ body {
   margin: 0;
 }
 .btnFlexPosition {
+  z-index: 1;
   margin-right: 20px;
   padding: 25px;
   display: flex;
@@ -232,6 +233,14 @@ button {
   top: 10px;
   right: 10px;
 }
+.view-details-edit {
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+.view-details-edit:hover {
+  color: red;
+}
 .new-badge {
   background-color: green;
   color: white;
@@ -277,8 +286,69 @@ button:hover {
 .profile-content {
   text-align: center;
 }
-/* MEDIA QUERIES */
-
-@media (max-width: 900px) {
+.post-detail-image {
+  max-width: 70%; /* Adjust the maximum width as needed */
+  height: 35vh; /* Maintain aspect ratio */
 }
+.card-detail-container.shifted-up {
+  margin-top: -180px;
+}
+/* MEDIA QUERIES */
+/* for smartphone */
+
+@media all and (max-width: 768px) {
+  .btnFlexPosition {
+    z-index: 1;
+    margin-right: 0px;
+    padding: 100px 190px 0px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+  .post-card {
+    margin: 0px 5px 50px 45px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: calc(40% - 20px);
+
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 10px;
+    vertical-align: top;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+}
+
+/* for tablet */
+
+@media all and (max-width: 992px) and (min-width: 768px) {
+  .btnFlexPosition {
+    z-index: 1;
+    margin-right: 0px;
+    padding: 100px 200px 0px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+
+  .post-card {
+    margin: 0px 5px 50px 45px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: calc(40% - 20px);
+
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 10px;
+    vertical-align: top;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+}
+
 /* MEDIA QUERIES */

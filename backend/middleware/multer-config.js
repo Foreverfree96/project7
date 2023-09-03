@@ -1,6 +1,7 @@
-// multer allows you to upload modify or delete images from your database
+// Import the Multer library for handling file uploads
 const multer = require("multer");
-// the different file types that are selected - i added webp fromat from learning webp is better SEO for response time.
+
+// Define a map of MIME types to file extensions for image types
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpg",
@@ -8,32 +9,24 @@ const MIME_TYPES = {
   "image/webp": "webp",
 };
 
+// Configure storage for uploaded images using Multer
 const storage = multer.diskStorage({
-  // takes the storge and puts the images you want to store into the images folder
+  // Define the destination directory for uploaded files
   destination: (req, file, callback) => {
-    callback(null, "images");
+    callback(null, "images"); // Upload images to the "images" folder
   },
+  // Define the filename for the uploaded file
   filename: (req, file, callback) => {
+    // Remove spaces from the original filename and replace with underscores
     const name = file.originalname.split(" ").join("_");
+
+    // Get the file extension based on the MIME type
     const extension = MIME_TYPES[file.mimetype];
+
+    // Construct a unique filename with a timestamp and extension
     callback(null, name + Date.now() + "." + extension);
   },
 });
 
-// or
-
-// Multer configuration to handle file uploads
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "uploads"); // The destination directory for uploaded files
-//   },
-//   filename: (req, file, cb) => {
-//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-//     cb(null, uniqueSuffix + path.extname(file.originalname)); // File name with unique timestamp and original extension
-//   },
-// });
-
-// const upload = multer({ storage });
-// exports a single image
+// Create a Multer middleware with the defined storage configuration for single-image uploads
 module.exports = multer({ storage: storage }).single("image");
-

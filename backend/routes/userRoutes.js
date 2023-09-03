@@ -1,22 +1,23 @@
-// this will be the routeEverything folder reference project 6
-// it will be the whole CRUD for the authContoller
-// POST, GET, PUT, DELETE,
-// will also have multer in here
-// auth in the middleware folder as well.
+// Import necessary modules and controllers
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/auth");
-const multer = require("../middleware/multer-config");
-const userController = require("../controllers/userControllers");
+const auth = require("../middleware/auth"); // Authentication middleware
+const multer = require("../middleware/multer-config"); // Multer middleware for handling file uploads
+const userController = require("../controllers/userControllers"); // User controller handling CRUD operations
 
-// continue to connect your routes here
+// Define routes for User CRUD operations:
 
+// GET request to "/getUsers": Fetches all users (protected by authentication).
 router.get("/getUsers", userController.getUsers);
 
+// PUT request to "/modifyUser/:id": Modifies a user's data by ID.
 router.put("/modifyUser/:id", userController.modifyUser);
 
+// DELETE request to "/deleteUser/:id": Deletes a user by ID.
 router.delete("/deleteUser/:id", userController.deleteUser);
 
+// GET request to "/:id": Fetches a user by ID (protected by authentication).
 router.get("/:id", auth, userController.getUserById);
 
+// Export the router for use in the application.
 module.exports = router;

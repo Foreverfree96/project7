@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const fs = require("fs");
 
+// Controller for retrieving all users
 exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -13,6 +14,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+// Controller for retrieving a user by their ID
 exports.getUserById = async (req, res) => {
   const userId = req.params.id;
 
@@ -30,6 +32,7 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+// Controller for deleting a user by their ID
 exports.deleteUser = async (req, res) => {
   const userId = req.params.id;
 
@@ -54,11 +57,9 @@ exports.deleteUser = async (req, res) => {
         user
           .destroy()
           .then(() => {
-            return res
-              .status(200)
-              .json({
-                message: "User and associated images deleted successfully",
-              });
+            return res.status(200).json({
+              message: "User and associated images deleted successfully",
+            });
           })
           .catch((error) => {
             console.error("Error deleting user:", error);
@@ -66,7 +67,7 @@ exports.deleteUser = async (req, res) => {
           });
       });
     } else {
-      // If user doesn't have an image, directly delete the user
+      // If the user doesn't have an image, directly delete the user
       user
         .destroy()
         .then(() => {
@@ -82,26 +83,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: "Failed to delete user" });
   }
 };
-
-// TODO: start working on modify user <---
-// example
-
-// User.update(
-//   {
-//     arrayField: sequelize.literal(`array_append(arrayField, 'New Value')`),
-//   },
-//   { where: { id: req.params.id } }
-// )
-//   .then(() => {
-//     res.status(200).json({
-//       message: "Value added to array successfully",
-//     });
-//   })
-//   .catch((error) => {
-//     res.status(400).json({
-//       error: error,
-//     });
-//   });
-
-// might not be needed.
-exports.modifyUser = async (req, res) => {};

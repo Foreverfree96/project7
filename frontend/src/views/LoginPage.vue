@@ -17,9 +17,11 @@
         <input type="password" id="password" v-model="form.password" required />
       </div>
       <div class="btn-container">
+        <!-- Button to submit the form (either Login or Sign Up) -->
         <button class="action-btn" type="submit">
           {{ isLogin ? "Login" : "Sign Up" }}
         </button>
+        <!-- Link to toggle between Login and Sign Up forms -->
         <router-link id="move-text" class="action-btn" to="/signup">
           Switch to Sign Up
         </router-link>
@@ -60,9 +62,7 @@ export default {
               "userId",
               JSON.stringify(response.data.userId)
             );
-            console.log("this is the user id", response.data.userId);
 
-            console.log(localStorage.getItem("token"));
             // Reset form fields
             this.form.username = "";
             this.form.email = "";
@@ -83,6 +83,7 @@ export default {
           .then((response) => {
             // Handle successful signup
             console.log("Registered Successfully", response.data);
+
             // Reset form fields
             this.form.username = "";
             this.form.email = "";

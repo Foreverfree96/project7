@@ -1,38 +1,46 @@
+// Import necessary modules from Sequelize library
 const { Model, DataTypes } = require("sequelize");
+
+// Import the Sequelize instance (sequelize) configured for the database
 const { sequelize } = require("../db");
+
+// Import the 'Post' model
 const Post = require("./post"); // Import the Post model
 
+// Define a class for the 'User' model that extends the Sequelize Model class
 class User extends Model {}
 
+// Initialize the 'User' model with its attributes and configuration
 User.init(
   {
+    // Define the 'username' attribute as a non-null string
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false, // Username is required
     },
+    // Define the 'email' attribute as a non-null string with uniqueness constraint
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      allowNull: false, // Email is required
+      unique: true, // Ensure email uniqueness
     },
+    // Define the 'password' attribute as a non-null string
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false, // Password is required
     },
+    // Define the 'imageUrl' attribute as a nullable string (allows null if the user doesn't have an image)
     imageUrl: {
       type: DataTypes.STRING,
-      allowNull: true, // Allow null if the user doesn't have an image
+      allowNull: true, // User can optionally have an image
     },
   },
   {
-    sequelize,
-    modelName: "User",
-    tableName: "users", // Use "users" as the table name
+    sequelize, // Pass the Sequelize instance for this model
+    modelName: "User", // Define the model name
+    tableName: "users", // Use "users" as the table name in the database
   }
 );
 
-// Define the association here
-// User.hasMany(Post, { foreignKey: "userId" });
-// Post.belongsTo(User, { foreignKey: "userId" });
-
+// Export the 'User' model for use in other parts of the application
 module.exports = User;

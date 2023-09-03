@@ -1,25 +1,31 @@
 <template>
   <div class="signupFlex">
     <form class="form-sizing" @submit.prevent="submitForm">
+      <!-- Display "Login" or "Sign Up" based on the 'isLogin' value -->
       <h2 class="text-spacing">{{ isLogin ? "Login" : "Sign Up" }}</h2>
       <div class="form-row">
         <label for="username">Username:</label>
+        <!-- Input field for username, bound to 'form.username' -->
         <input type="text" id="username" v-model="form.username" required />
       </div>
 
       <div class="form-row">
         <label for="email">Email:</label>
+        <!-- Input field for email, bound to 'form.email' -->
         <input type="email" id="email" v-model="form.email" required />
       </div>
 
       <div class="form-row">
         <label for="password">Password:</label>
+        <!-- Input field for password, bound to 'form.password' -->
         <input type="password" id="password" v-model="form.password" required />
       </div>
       <div class="btn-container">
+        <!-- Button to submit the form (either Login or Sign Up) -->
         <button class="action-btn" type="submit">
           {{ isLogin ? "Login" : "Sign Up" }}
         </button>
+        <!-- Link to toggle between Login and Sign Up forms -->
         <router-link id="move-text" class="action-btn" to="/login">
           Switch to Login
         </router-link>
